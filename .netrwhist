@@ -1,0 +1,6 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =4
+let g:netrw_dirhist_1='/home/zzj/.gconf/apps/gnome-terminal/profiles/Default'
+let g:netrw_dirhist_2='/home/zzj/gnome-terminal-colors-solarized/colors/dark'
+let g:netrw_dirhist_3='/home/zzj/gnome-terminal-colors-solarized/colors/dark_alternative'
+let g:netrw_dirhist_4='/home/zzj/.vim/bundle/vim-colors-solarized/colors'
