@@ -176,3 +176,4 @@
     nmap <C-@>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
     nmap <C-@>i :cs find i <C-R>=expand("<cfile>")<CR><CR> :copen<CR><CR>
 
+	hi Normal ctermbg=NONE
