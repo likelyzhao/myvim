@@ -5,9 +5,30 @@
     " NOTE: debian.vim sets 'nocompatible'. Setting 'compatible' changes numerous
     " options, so any other options should be set AFTER setting 'compatible'.
     set nocompatible
-
+	filetype off
+	
 	"pathogen settings
 	execute pathogen#infect()
+ 
+    " detect file type
+    "filetype on
+    filetype plugin on
+       
+	"set rtp+=~/.vim/bundle/Vundle.vim
+	"call vundle#begin()
+
+	"Bundle 'gmarik/vundle'
+
+    "Plugin 'godlygeek/tabular'
+	"Plugin 'plasticboy/vim-markdown'
+
+	"call vundle#end()
+	"filetype plugin indent on
+	
+
+	let g:vim_markdown_frontmatter=1
+	"pathogen settings
+	"execute pathogen#infect()
     " Vim5 and later versions support syntax highlighting. Uncommenting the
     " following enables syntax highlighting by default.
    	if has("syntax")
@@ -21,10 +42,6 @@
 	"colorscheme desert 
 	"设置配色方案，vim自带的配色方案保存在/usr/share/vim/vim72/colors目录下
  
-
-    " detect file type
-    filetype on
-    filetype plugin on
 
     " If using a dark background within the editing area and syntax highlighting
     " turn on this option as well
@@ -175,5 +192,4 @@
     nmap <C-@>e :cs find e <C-R>=expand("<cword>")<CR><CR> :copen<CR><CR>
     nmap <C-@>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
     nmap <C-@>i :cs find i <C-R>=expand("<cfile>")<CR><CR> :copen<CR><CR>
-
-	hi Normal ctermbg=NONE
+hi Normal ctermbg=NONE
