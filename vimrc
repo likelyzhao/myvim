@@ -11,24 +11,10 @@
 	execute pathogen#infect()
  
     " detect file type
-    "filetype on
+    filetype on
     filetype plugin on
-       
-	"set rtp+=~/.vim/bundle/Vundle.vim
-	"call vundle#begin()
-
-	"Bundle 'gmarik/vundle'
-
-    "Plugin 'godlygeek/tabular'
-	"Plugin 'plasticboy/vim-markdown'
-
-	"call vundle#end()
-	"filetype plugin indent on
-	
 
 	let g:vim_markdown_frontmatter=1
-	"pathogen settings
-	"execute pathogen#infect()
     " Vim5 and later versions support syntax highlighting. Uncommenting the
     " following enables syntax highlighting by default.
    	if has("syntax")
@@ -37,12 +23,14 @@
 
     set background =dark
 	set t_Co=256
-    let g:solarized_visibility="high"
 	colorscheme solarized "elflord ron peachpuff defaulit
 	"colorscheme desert 
 	"设置配色方案，vim自带的配色方案保存在/usr/share/vim/vim72/colors目录下
  
-
+    " for table mode 
+	let g:table_mode_corner = '|'
+	let g:table_mode_border =0
+	let g:table_mode_fillchar=' '
     " If using a dark background within the editing area and syntax highlighting
     " turn on this option as well
 
@@ -112,43 +100,16 @@
 	 let Tlist_Exit_OnlyWindow=1   "当taglist是最后一个分割窗口时，自动推出vim 是否一直处理tags.1:处理;0:不处理
 	 let Tlist_Process_File_Always=1   "实时更新tags
 	 let Tlist_Inc_Winwidth=0
-
+	
+	 
+	 "--- winmanager setting"
 	 let g:winManagerWindowLayout='FileExplorer|TagList' " 设置我们要管理的插件
 	 let g:persistentBehaviour=0 " 如果所有编辑文件都关闭了，退出vim
 	 nmap wm :WMToggle<cr> 
 
+   
 
-	 "--ctags setting--
-	 " 按下F5重新生成tag文件，并更新taglist
-	 map <F5> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q . <CR><CR> :TlistUpdate<CR>
-	 imap <F5> <ESC>:!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR><CR> :TlistUpdate<CR>
-	 set tags=tags
-	 set tags+=./tags "add current directory' generated tags file
-	 "set tags+=~/caffe/caffe/tag "add new tags file(刚刚生成tags的路径，在ctags -R 生成tags文件后，不要将tags移动到别的目录，否则ctrl+］时，会提示找不到源码文件)
-	 "set tags+=~/.vim/sys_tags
-
-	 "set tags+=~/.vim/systags
-	 "-- omnicppcomplete setting --
-	 "按下F3自动补全代码，注意该映射语句后不能有其他字符，包括tab；否则按下F3会自动补全一些乱码
-	 imap <TAB><TAB> <C-X><C-O>
-	 "按下F2根据头文件内关键字补全
-	 imap <F2> <C-X><C-I>
-	 set completeopt=menu,menuone "
-	 "关掉智能补全时的预览窗口
-	 let OmniCpp_MayCompleteDot = 1 "autocomplete with .
-	 let OmniCpp_MayCompleteArrow = 1 "autocomplete with ->
-	 let OmniCpp_MayCompleteScope = 1 "autocomplete with ::
-	 let OmniCpp_SelectFirstItem = 2  "select first item (but don't insert)
-	 let OmniCpp_NamespaceSearch = 2  "search namespaces in this and included files
-	 let OmniCpp_ShowPrototypeInAbbr =  1 " show function prototype in popup window
-	 let OmniCpp_GlobalScopeSearch=1      " enable the global scope search
-	 let OmniCpp_DisplayMode=1            " Class scope completion mode: always show all members
-	 let OmniCpp_DefaultNamespaces=["std"]
-	 let OmniCpp_ShowScopeInAbbr=1        " show scope in abbreviation and remove the last column 
-	 let OmniCpp_ShowAccess=1
-	 
-
-    "-- QuickFix setting --
+	"-- QuickFix setting --
 	" 按下F6，执行make clean
 	map <F6> :make clean<CR><CR><CR>
 	"按下F7，执行make编译程序，并打开quickfix窗口，显示编译信息
@@ -162,34 +123,37 @@
     imap <F7> <ESC>:make<CR><CR><CR> :copen<CR><CR>
 	imap <F8> <ESC>:cp<CR>
 	imap <F9> <ESC>:cn<CR>
+	
+	"""" python setting 
 
-    "-- Cscope setting --
-    if has("cscope")
-        set csprg=/usr/bin/cscope        " 指定用来执行cscope的命令
-        set csto=0                        " 设置cstag命令查找次序：0先找cscope数据库再找标签文件；1先找标签文件再找cscope数据库
-        set cst                            " 同时搜索cscope数据库和标签文件
-        set cscopequickfix=s-,c-,d-,i-,t-,e-    " 使用QuickFix窗口来显示cscope查找结果
-        set nocsverb
-        if filereadable("cscope.out")    " 若当前目录下存在cscope数据库，添加该数据库到vim
-            cs add cscope.out
-        elseif $CSCOPE_DB != ""            " 否则只要环境变量CSCOPE_DB不为空，则添加其指定的数据库到vim
-            cs add $CSCOPE_DB
-        endif 
-		cs add ~/.vim/caffecscope.out  
-	    cs reset
+	au BufNewFile,BufRead *.py
+     \ set tabstop=4 |    
+     \ set softtabstop=4 | 
+     \ set softtabstop=4|
+     \ set shiftwidth=4|
+     \ set textwidth=79|
+     \ set expandtab|
+     \ set autoindent|
+     \ set fileformat=unix|
+
+	let python_highlight_all=1
+
+	set statusline+=%#warningmsg#
+	set statusline+=%{SyntasticStatuslineFlag()}
+	set statusline+=%*
+	
+	let g:syntastic_always_populate_loc_list =1 
+	let g:syntastic_auto_loc_list =1 
+	let g:syntastic_check_on_open =1
+	let g:syntastic_check_on_wq =0
 
 
-        set csverb
-    endif
-    map <F4> :cs add ./cscope.out .<CR><CR><CR> :cs reset<CR>
-    imap <F4> <ESC>:cs add ./cscope.out .<CR><CR><CR> :cs reset<CR>
-    " 将:cs find c等Cscope查找命令映射为<C-_>c等快捷键（按法是先按Ctrl+Shift+-, 然后很快再按下c）
-    nmap <C-@>s :cs find s <C-R>=expand("<cword>")<CR><CR> :copen<CR><CR>
-    nmap <C-@>g :cs find g <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-@>d :cs find d <C-R>=expand("<cword>")<CR><CR> :copen<CR><CR>
-    nmap <C-@>c :cs find c <C-R>=expand("<cword>")<CR><CR> :copen<CR><CR>
-    nmap <C-@>t :cs find t <C-R>=expand("<cword>")<CR><CR> :copen<CR><CR>
-    nmap <C-@>e :cs find e <C-R>=expand("<cword>")<CR><CR> :copen<CR><CR>
-    nmap <C-@>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
-    nmap <C-@>i :cs find i <C-R>=expand("<cfile>")<CR><CR> :copen<CR><CR>
-hi Normal ctermbg=NONE
+
+	"""" python debug
+		
+
+	let g:dbgPavimPort = 9009
+	let g:dbgPavimBreakAtEntry = 0
+
+
+	hi Normal ctermbg=NONE
